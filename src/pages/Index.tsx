@@ -3,13 +3,17 @@ import { Footer } from '@/components/Footer';
 import { SearchBar } from '@/components/SearchBar';
 import { PackageCard } from '@/components/PackageCard';
 import { LanguageGrid } from '@/components/LanguageGrid';
-import { packages } from '@/data/packages';
-import { ArrowRight, Zap, Search, Code } from 'lucide-react';
+import { useTrendingPackages, usePackageStats } from '@/hooks/useApi';
+import { ArrowRight, Zap, Search, Code, Loader2, TrendingUp, Package, Star, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card } from '@/components/ui/card';
 
 const Index = () => {
-  const featuredPackages = packages.slice(0, 6);
+  // Fetch trending packages and stats from API
+  const { data: trendingData, isLoading: trendingLoading, error: trendingError } = useTrendingPackages(6);
+  const { data: statsData, isLoading: statsLoading } = usePackageStats();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -92,22 +96,123 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Featured Packages */}
+        {/* Stats Section */}
         <section className="py-16 bg-card/50 border-y border-border">
           <div className="container">
+            <h2 className="text-2xl font-bold mb-8">Package Statistics</h2>
+            
+            {statsLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : statsData ? (
+              <div className="grid md:grid-cols-4 gap-6">
+                <Card className="p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Package className="h-5 w-5 text-primary" />
+                    <h3 className="font-semibold">Total Packages</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{statsData.total.toLocaleString()}</p>
+                </Card>
+                
+                <Card className="p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Code className="h-5 w-5 text-blue-500" />
+                    <h3 className="font-semibold">Python</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{statsData.byLanguage.python.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground mt-1">packages</p>
+                </Card>
+                
+                <Card className="p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Code className="h-5 w-5 text-green-500" />
+                    <h3 className="font-semibold">Node.js</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{statsData.byLanguage.nodejs.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground mt-1">packages</p>
+                </Card>
+                
+                <Card className="p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Code className="h-5 w-5 text-orange-500" />
+                    <h3 className="font-semibold">Rust</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{statsData.byLanguage.rust.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground mt-1">packages</p>
+                </Card>
+                
+                <Card className="p-6 md:col-span-2">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Star className="h-5 w-5 text-yellow-500" />
+                    <h3 className="font-semibold">Total Stars</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{statsData.totalStars.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground mt-1">across all packages</p>
+                </Card>
+                
+                <Card className="p-6 md:col-span-2">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Download className="h-5 w-5 text-purple-500" />
+                    <h3 className="font-semibold">Total Downloads</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{statsData.totalDownloads.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground mt-1">across all packages</p>
+                </Card>
+              </div>
+            ) : null}
+          </div>
+        </section>
+
+        {/* Trending Packages */}
+        <section className="py-16">
+          <div className="container">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold">Featured Packages</h2>
+              <div className="flex items-center gap-3">
+                <TrendingUp className="h-6 w-6 text-primary" />
+                <h2 className="text-2xl font-bold">Trending Packages</h2>
+              </div>
               <Link to="/search">
                 <Button variant="ghost" className="gap-2">
                   Explore all <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredPackages.map((pkg) => (
-                <PackageCard key={pkg.id} package={pkg} />
-              ))}
-            </div>
+            
+            {/* Loading State */}
+            {trendingLoading && (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <span className="ml-3 text-muted-foreground">Loading packages...</span>
+              </div>
+            )}
+            
+            {/* Error State */}
+            {trendingError && (
+              <Alert variant="destructive">
+                <AlertDescription>
+                  Failed to load packages. Please make sure the backend server is running on port 3001.
+                  <br />
+                  <code className="text-xs mt-2 block">Error: {trendingError.message}</code>
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            {/* Success State */}
+            {trendingData?.data && trendingData.data.length > 0 && (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {trendingData.data.map((pkg) => (
+                  <PackageCard key={pkg.id} package={pkg} />
+                ))}
+              </div>
+            )}
+            
+            {/* Empty State */}
+            {trendingData?.data && trendingData.data.length === 0 && (
+              <div className="text-center py-12 text-muted-foreground">
+                No trending packages found. Try running the seed script!
+              </div>
+            )}
           </div>
         </section>
       </main>

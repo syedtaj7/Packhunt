@@ -3,28 +3,38 @@ import { Star, GitFork, ExternalLink, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Package } from '@/data/packages';
+import { Package as OldPackage } from '@/data/packages';
+import { Package as APIPackage } from '@/lib/api';
 import { useStarredPackages } from '@/hooks/useLocalStorage';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface PackageCardProps {
-  package: Package;
+  package: OldPackage | APIPackage;
 }
 
 const languageColors: Record<string, string> = {
   python: 'bg-python/20 text-python border-python/30',
   nodejs: 'bg-nodejs/20 text-nodejs border-nodejs/30',
   rust: 'bg-rust/20 text-rust border-rust/30',
+  PYTHON: 'bg-python/20 text-python border-python/30',
+  NODEJS: 'bg-nodejs/20 text-nodejs border-nodejs/30',
+  RUST: 'bg-rust/20 text-rust border-rust/30',
 };
 
 const languageNames: Record<string, string> = {
   python: 'Python',
   nodejs: 'Node.js',
   rust: 'Rust',
+  PYTHON: 'Python',
+  NODEJS: 'Node.js',
+  RUST: 'Rust',
 };
 
-function formatNumber(num: number): string {
+function formatNumber(num: number | undefined | null): string {
+  if (num === undefined || num === null) {
+    return '0';
+  }
   if (num >= 1000) {
     return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
   }
@@ -34,7 +44,10 @@ function formatNumber(num: number): string {
 export function PackageCard({ package: pkg }: PackageCardProps) {
   const { isStarred, toggleStar } = useStarredPackages();
   const [copied, setCopied] = useState(false);
-  const starred = isStarred(pkg.id);
+  
+  // Handle both old and new package types
+  const packageId = 'slug' in pkg ? pkg.slug : pkg.id;
+  const starred = isStarred(packageId);
 
   const copyInstallCommand = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -47,12 +60,15 @@ export function PackageCard({ package: pkg }: PackageCardProps) {
   const handleStarClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    toggleStar(pkg.id);
+    toggleStar(packageId);
   };
+  
+  // Get license display (API returns string, old data returns string)
+  const licenseDisplay = pkg.license || 'MIT';
 
   return (
     <Card className="group hover:border-primary/50 transition-all duration-200 hover:shadow-lg hover:shadow-primary/5">
-      <Link to={`/package/${pkg.id}`}>
+      <Link to={`/package/${packageId}`}>
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
@@ -118,7 +134,7 @@ export function PackageCard({ package: pkg }: PackageCardProps) {
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="text-xs">
-              {pkg.license}
+              {licenseDisplay}
             </Badge>
           </div>
         </CardFooter>

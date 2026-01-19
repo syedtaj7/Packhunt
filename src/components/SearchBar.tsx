@@ -65,6 +65,23 @@ export function SearchBar({
     inputRef.current?.focus();
     if (onSearch) {
       onSearch('');
+    } else {
+      // Navigate to search page without query to show all packages
+      navigate('/search');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setQuery(newValue);
+    
+    // If user cleared the input (backspace to empty), show all packages
+    if (newValue === '' && initialValue !== '') {
+      if (onSearch) {
+        onSearch('');
+      } else {
+        navigate('/search');
+      }
     }
   };
 
@@ -81,7 +98,7 @@ export function SearchBar({
           ref={inputRef}
           type="search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           autoFocus={autoFocus}

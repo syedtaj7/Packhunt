@@ -1,6 +1,26 @@
 import { Link } from 'react-router-dom';
-import { languages } from '@/data/packages';
 import { cn } from '@/lib/utils';
+
+const languages = [
+  {
+    id: 'python',
+    name: 'Python',
+    icon: '🐍',
+    description: 'Scientific computing, data science, web development',
+  },
+  {
+    id: 'nodejs',
+    name: 'Node.js',
+    icon: '🟢',
+    description: 'Backend APIs, real-time apps, tooling',
+  },
+  {
+    id: 'rust',
+    name: 'Rust',
+    icon: '🦀',
+    description: 'Systems programming, performance-critical apps',
+  },
+];
 
 const languageStyles: Record<string, { bg: string; border: string; text: string }> = {
   python: { bg: 'bg-python/10', border: 'border-python/30', text: 'text-python' },
@@ -30,13 +50,10 @@ export function LanguageGrid() {
                 <h3 className={cn("text-xl font-semibold", styles.text)}>
                   {lang.name}
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  {lang.packageCount} packages
-                </p>
               </div>
             </div>
             <p className="text-sm text-muted-foreground">
-              Explore the best {lang.name} libraries for your projects
+              {lang.description}
             </p>
           </Link>
         );

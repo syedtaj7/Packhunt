@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [vector]
+}
+
+// Main Package table
+model Package {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String   @db.Text
+  language    Language
+  ecosystem   String // "pypi", "npm", "crates.io"
+
+  // Metadata
+  stars           Int
+  forks           Int
+  downloads       Int      @default(0)
+  license         String
+  lastUpdated     DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  popularityScore Float    @default(0)
+
+  // URLs
+  githubUrl    String
+  registryUrl  String // PyPI/npm/crates.io link
+  docsUrl      String?
+  homepageUrl  String?
+
+  // Rich Content
+  readme         String @db.Text
+  installCommand String
+
+  // Relationships
+  categories    Category[]
+  examples      Example[]
+  alternatives  Alternative[]  @relation("PackageAlternatives")
+  alternativeOf Alternative[]  @relation("AlternativePackages")
+  dependencies  Dependency[]
+
+  // Search & AI (for semantic search - Day 6)
+  // Note: vector type is provided by pgvector extension
+  // Using 384 dimensions for all-MiniLM-L6-v2 model (free, local)
+  embedding   Unsupported("vector(384)")?
+  embeddingAt DateTime?
+
+  @@index([language, stars])
+  @@index([popularityScore])
+  @@index([ecosystem])
+  @@index([slug])
+}
+
+// Categories like "Data Science", "Web Frameworks", etc.
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  packages    Package[]
+
+  @@index([slug])
+}
+
+// Code examples for each package
+model Example {
+  id          String  @id @default(cuid())
+  packageId   String
+  package     Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String
+  code        String  @db.Text
+  language    String // For syntax highlighting (python, javascript, rust, etc.)
+  order       Int     @default(0)
+
+  @@index([packageId])
+  @@index([order])
+}
+
+// Alternative packages (e.g., NumPy alternatives: JAX, CuPy)
+model Alternative {
+  id            String  @id @default(cuid())
+  packageId     String
+  package       Package @relation("PackageAlternatives", fields: [packageId], references: [id], onDelete: Cascade)
+
+  alternativeId String
+  alternative   Package @relation("AlternativePackages", fields: [alternativeId], references: [id], onDelete: Cascade)
+
+  reason String? // "Faster", "More features", "Better maintained"
+
+  @@unique([packageId, alternativeId])
+  @@index([packageId])
+  @@index([alternativeId])
+}
+
+// Package dependencies
+model Dependency {
+  id        String  @id @default(cuid())
+  packageId String
+  package   Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  name    String
+  version String?
+  isDev   Boolean @default(false)
+
+  @@index([packageId])
+}
+
+// Enum for supported languages
+enum Language {
+  PYTHON
+  NODEJS
+  RUST
+  CPP
+  JAVA
+  GO
+}
