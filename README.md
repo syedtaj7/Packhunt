@@ -47,7 +47,8 @@
 - **30+ Curated Packages**: Python, Node.js, Rust
 - **Detailed Information**: Stars, downloads, docs, install commands
 - **Category Organization**: Find packages by use case
-- **Star Your Favorites**: Keep track of packages you love
+- **Authentication**: Google Sign-in & Email/Password (powered by Firebase)
+- **Star Your Favorites**: Keep track of packages you love (login required)
 
 </td>
 <td width="50%">
@@ -264,6 +265,45 @@ bun run sync-meilisearch
 ⚙️ Updated sortable attributes
 🎉 Sync completed successfully!
 ```
+
+### 8️⃣ Set Up Firebase Authentication (Optional but Recommended)
+
+Firebase powers the authentication system, allowing users to sign in with Google or email/password to star their favorite packages.
+
+#### Frontend Environment (`.env` in root directory)
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+```
+
+**Required Firebase Environment Variables:**
+
+```env
+# Firebase Configuration (get from Firebase Console)
+VITE_FIREBASE_API_KEY=your-api-key-here
+VITE_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+VITE_FIREBASE_APP_ID=your-app-id
+```
+
+> 🔐 **Complete Firebase Setup Guide**: See [FIREBASE-SETUP.md](./FIREBASE-SETUP.md) for detailed instructions on:
+> - Creating a Firebase project
+> - Enabling Google Sign-in & Email/Password authentication
+> - Getting your configuration keys
+> - Setting up authorized domains
+> - Testing the authentication flow
+>
+> ⚡ **Quick Setup** (5 minutes):
+> 1. Go to [Firebase Console](https://console.firebase.google.com/)
+> 2. Create a new project
+> 3. Add a web app
+> 4. Enable Authentication (Google + Email/Password)
+> 5. Copy the config to your `.env` file
+>
+> 💡 **Note**: The app works without Firebase, but users won't be able to star packages. Public browsing and search work without authentication!
 
 ---
 

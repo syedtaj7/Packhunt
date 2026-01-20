@@ -6,8 +6,10 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Package as OldPackage } from '@/data/packages';
 import { Package as APIPackage } from '@/lib/api';
 import { useStarredPackages } from '@/hooks/useLocalStorage';
+import { LoginModal } from '@/components/LoginModal';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface PackageCardProps {
   package: OldPackage | APIPackage;
@@ -42,8 +44,10 @@ function formatNumber(num: number | undefined | null): string {
 }
 
 export function PackageCard({ package: pkg }: PackageCardProps) {
-  const { isStarred, toggleStar } = useStarredPackages();
+  const { isStarred, toggleStar, requiresAuth } = useStarredPackages();
+  const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
   
   // Handle both old and new package types
   const packageId = 'slug' in pkg ? pkg.slug : pkg.id;
@@ -60,7 +64,16 @@ export function PackageCard({ package: pkg }: PackageCardProps) {
   const handleStarClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    toggleStar(packageId);
+    
+    if (requiresAuth) {
+      setLoginModalOpen(true);
+      return;
+    }
+    
+    const success = toggleStar(packageId);
+    if (!success) {
+      setLoginModalOpen(true);
+    }
   };
   
   // Get license display (API returns string, old data returns string)
@@ -139,6 +152,18 @@ export function PackageCard({ package: pkg }: PackageCardProps) {
           </div>
         </CardFooter>
       </Link>
+      
+      <LoginModal 
+        open={loginModalOpen} 
+        onOpenChange={setLoginModalOpen}
+        onSuccess={() => {
+          toggleStar(packageId);
+          toast({
+            title: "Package starred!",
+            description: `${pkg.name} has been added to your starred packages.`,
+          });
+        }}
+      />
     </Card>
   );
 }

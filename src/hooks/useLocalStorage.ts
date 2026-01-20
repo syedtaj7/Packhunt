@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -25,21 +26,27 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
 }
 
 export function useStarredPackages() {
-  const [starred, setStarred] = useLocalStorage<string[]>('packhunt-starred', []);
+  const { user } = useAuth();
+  const storageKey = user ? `packhunt-starred-${user.uid}` : 'packhunt-starred-guest';
+  const [starred, setStarred] = useLocalStorage<string[]>(storageKey, []);
   
   const toggleStar = useCallback((packageId: string) => {
+    if (!user) {
+      return false; // Return false to indicate auth required
+    }
     setStarred(prev => 
       prev.includes(packageId) 
         ? prev.filter(id => id !== packageId)
         : [...prev, packageId]
     );
-  }, [setStarred]);
+    return true;
+  }, [setStarred, user]);
   
   const isStarred = useCallback((packageId: string) => {
     return starred.includes(packageId);
   }, [starred]);
   
-  return { starred, toggleStar, isStarred };
+  return { starred, toggleStar, isStarred, requiresAuth: !user };
 }
 
 export function useSavedSearches() {
