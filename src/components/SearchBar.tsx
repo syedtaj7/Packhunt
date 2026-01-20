@@ -86,49 +86,61 @@ export function SearchBar({
   };
 
   return (
-    <div className={cn("relative", className)}>
-      <div className="relative flex items-center">
+    <div className={cn("relative flex items-center gap-2", className)}>
+      <div className="relative flex items-center group flex-1">
         <SearchIcon 
           className={cn(
-            "absolute left-3 text-muted-foreground pointer-events-none",
+            "absolute left-4 text-muted-foreground pointer-events-none transition-colors group-focus-within:text-primary z-10",
             size === 'large' ? 'h-5 w-5' : 'h-4 w-4'
           )} 
         />
         <Input
           ref={inputRef}
-          type="search"
+          type="text"
           value={query}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           autoFocus={autoFocus}
           className={cn(
-            "pr-20",
-            size === 'large' 
-              ? 'h-14 pl-12 text-lg rounded-xl' 
-              : 'h-10 pl-10 rounded-lg'
+            "w-full pr-20 transition-all duration-200",
+            size === 'large' ? [
+              'h-14 pl-12 text-base rounded-2xl',
+              'border-2 border-border',
+              'focus:border-primary focus:ring-4 focus:ring-primary/10',
+              'shadow-lg shadow-black/5',
+              'hover:shadow-xl hover:shadow-black/10'
+            ] : [
+              'h-11 pl-11 rounded-xl',
+              'border border-border',
+              'focus:border-primary focus:ring-2 focus:ring-primary/10'
+            ]
           )}
         />
-        {query && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-12 h-6 w-6"
-            onClick={clearQuery}
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        )}
         <Button
           onClick={() => handleSubmit()}
           className={cn(
-            "absolute right-1.5",
-            size === 'large' ? 'h-10 px-4' : 'h-7 px-3 text-xs'
+            "absolute right-1.5 shadow-sm hover:shadow-md transition-all",
+            size === 'large' ? 'h-11 px-5 rounded-xl' : 'h-8 px-3 text-xs rounded-lg'
           )}
         >
           Search
         </Button>
       </div>
+      {query && (
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={clearQuery}
+          className={cn(
+            "shrink-0 bg-red-900/90 hover:bg-red-900 text-black transition-all rounded-lg",
+            size === 'large' ? 'h-14 w-14' : 'h-11 w-11'
+          )}
+        >
+          <X className="h-5 w-5" />
+        </Button>
+      )}
     </div>
   );
 }

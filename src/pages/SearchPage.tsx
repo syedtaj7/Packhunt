@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -116,16 +117,16 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      <main className="flex-1 container py-8">
-        <div className="mb-8">
+      <main className="flex-1 container py-10">
+        <div className="mb-10">
           <SearchBar initialValue={query} onSearch={handleSearch} autoFocus />
         
         {/* Example Queries - Only show when no search query */}
           {!query && (
-            <div className="mt-4 text-center">
-              <p className="text-sm text-muted-foreground mb-2">Try natural language queries:</p>
+            <div className="mt-6 text-center animate-in">
+              <p className="text-sm text-muted-foreground mb-3 font-medium">Try natural language queries:</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {[
                   'fast web framework for APIs',
@@ -139,7 +140,7 @@ export default function SearchPage() {
                     variant="outline"
                     size="sm"
                     onClick={() => handleSearch(example)}
-                    className="text-xs"
+                    className="text-xs hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 hover:scale-105"
                   >
                     {example}
                   </Button>
@@ -151,36 +152,45 @@ export default function SearchPage() {
         
         {/* Search Mode Toggle - Only show when there's a query */}
         {query && (
-          <div className="mb-6 flex items-center justify-center gap-2">
+          <div className="mb-8 flex items-center justify-center gap-3 p-4 bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 shadow-sm w-fit mx-auto">
             <Button
-              variant={searchMode === 'keyword' ? 'default' : 'outline'}
+              variant={searchMode === 'keyword' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setSearchMode('keyword')}
-              className="gap-2"
+              className={cn(
+                "gap-2 transition-all duration-300 rounded-xl",
+                searchMode === 'keyword' ? 'shadow-md' : 'hover:bg-muted'
+              )}
             >
               <Search className="h-4 w-4" />
               Keyword
             </Button>
             <Button
-              variant={searchMode === 'hybrid' ? 'default' : 'outline'}
+              variant={searchMode === 'hybrid' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setSearchMode('hybrid')}
-              className="gap-2"
+              className={cn(
+                "gap-2 transition-all duration-300 rounded-xl",
+                searchMode === 'hybrid' ? 'shadow-md' : 'hover:bg-muted'
+              )}
             >
               <Sparkles className="h-4 w-4" />
               Smart Search
-              <Badge variant="secondary" className="ml-1 text-[10px] px-1 py-0">BEST</Badge>
+              <Badge variant="secondary" className="ml-1 text-[10px] px-1.5 py-0.5 bg-primary/20 text-primary border-0">BEST</Badge>
             </Button>
             <Button
-              variant={searchMode === 'semantic' ? 'default' : 'outline'}
+              variant={searchMode === 'semantic' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setSearchMode('semantic')}
-              className="gap-2"
+              className={cn(
+                "gap-2 transition-all duration-300 rounded-xl",
+                searchMode === 'semantic' ? 'shadow-md' : 'hover:bg-muted'
+              )}
             >
               <Sparkles className="h-4 w-4" />
               AI Only
             </Button>
-            <Badge variant="outline" className="ml-2 text-xs">
+            <Badge variant="outline" className="ml-2 text-xs bg-primary/10 border-primary/20">
               100% Free • Local AI
             </Badge>
           </div>

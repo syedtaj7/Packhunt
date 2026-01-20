@@ -73,6 +73,20 @@ export function PackageCard({ package: pkg }: PackageCardProps) {
     const success = toggleStar(packageId);
     if (!success) {
       setLoginModalOpen(true);
+    } else {
+      // Show toast notification
+      if (!starred) {
+        toast({
+          title: "Package starred!",
+          description: `${pkg.name} has been added to your starred packages.`,
+        });
+      } else {
+        toast({
+          title: "Package unstarred",
+          description: `${pkg.name} has been removed from your starred packages.`,
+          variant: "default",
+        });
+      }
     }
   };
   
@@ -80,23 +94,23 @@ export function PackageCard({ package: pkg }: PackageCardProps) {
   const licenseDisplay = pkg.license || 'MIT';
 
   return (
-    <Card className="group hover:border-primary/50 transition-all duration-200 hover:shadow-lg hover:shadow-primary/5">
+    <Card className="group hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 bg-card backdrop-blur-sm">
       <Link to={`/package/${packageId}`}>
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-4">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="font-semibold text-lg truncate group-hover:text-primary transition-colors">
+                <h3 className="font-bold text-lg truncate group-hover:text-primary transition-colors duration-300">
                   {pkg.name}
                 </h3>
                 <Badge 
                   variant="outline" 
-                  className={cn("text-xs border shrink-0", languageColors[pkg.language])}
+                  className={cn("text-xs border shrink-0 transition-all duration-300 group-hover:scale-105", languageColors[pkg.language])}
                 >
                   {languageNames[pkg.language]}
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground line-clamp-2">
+              <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
                 {pkg.description}
               </p>
             </div>
@@ -104,49 +118,49 @@ export function PackageCard({ package: pkg }: PackageCardProps) {
               variant="ghost"
               size="icon"
               className={cn(
-                "shrink-0 h-8 w-8",
-                starred && "text-warning"
+                "shrink-0 h-9 w-9 rounded-lg transition-all duration-300",
+                starred ? "text-warning hover:bg-warning/10" : "hover:bg-muted"
               )}
               onClick={handleStarClick}
             >
-              <Star className={cn("h-4 w-4", starred && "fill-current")} />
+              <Star className={cn("h-4 w-4 transition-all duration-300", starred && "fill-current scale-110")} />
             </Button>
           </div>
         </CardHeader>
 
-        <CardContent className="pb-3">
-          <div className="flex items-center gap-2 p-2 rounded-md bg-secondary/50 font-mono text-sm">
-            <code className="flex-1 truncate text-muted-foreground">
+        <CardContent className="pb-4">
+          <div className="flex items-center gap-2 p-3 rounded-xl bg-muted/50 hover:bg-muted transition-colors border border-border/50 font-mono text-sm group/code">
+            <code className="flex-1 truncate text-muted-foreground group-hover/code:text-foreground transition-colors">
               {pkg.installCommand}
             </code>
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 shrink-0"
+              className="h-7 w-7 shrink-0 hover:bg-background transition-all"
               onClick={copyInstallCommand}
             >
               {copied ? (
-                <Check className="h-3 w-3 text-success" />
+                <Check className="h-3.5 w-3.5 text-success" />
               ) : (
-                <Copy className="h-3 w-3" />
+                <Copy className="h-3.5 w-3.5 opacity-0 group-hover/code:opacity-100 transition-opacity" />
               )}
             </Button>
           </div>
         </CardContent>
 
-        <CardFooter className="flex items-center justify-between text-sm text-muted-foreground">
+        <CardFooter className="flex items-center justify-between text-sm text-muted-foreground pt-0">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1.5 hover:text-warning transition-colors">
               <Star className="h-4 w-4" />
-              {formatNumber(pkg.stars)}
+              <span className="font-medium">{formatNumber(pkg.stars)}</span>
             </span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1.5 hover:text-info transition-colors">
               <GitFork className="h-4 w-4" />
-              {formatNumber(pkg.forks)}
+              <span className="font-medium">{formatNumber(pkg.forks)}</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="secondary" className="text-xs font-medium">
               {licenseDisplay}
             </Badge>
           </div>

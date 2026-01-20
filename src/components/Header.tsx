@@ -39,41 +39,35 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
+        <div className="flex items-center gap-8">
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white font-bold text-sm shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
               PH
             </div>
-            <span className="text-xl font-semibold tracking-tight">PackHunt</span>
+            <span className="text-xl font-bold tracking-tight text-primary">PackHunt</span>
           </Link>
           
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-1">
             <Link 
               to="/search" 
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all duration-200"
             >
               Explore
             </Link>
             <Link 
               to="/languages" 
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all duration-200"
             >
               Languages
-            </Link>
-            <Link 
-              to="/starred" 
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Starred
             </Link>
           </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Link to="/search" className="hidden sm:flex">
-            <Button variant="outline" size="sm" className="gap-2 text-muted-foreground">
+            <Button variant="outline" size="sm" className="gap-2 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all">
               <Search className="h-4 w-4" />
               <span className="hidden lg:inline">Search packages...</span>
               <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground lg:inline-flex">
@@ -82,7 +76,7 @@ export function Header() {
             </Button>
           </Link>
           
-          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+          <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-lg hover:bg-muted transition-colors">
             {theme === 'dark' ? (
               <Sun className="h-5 w-5" />
             ) : (
@@ -94,10 +88,10 @@ export function Header() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full hover:ring-2 hover:ring-primary/20 transition-all">
                   <Avatar className="h-9 w-9">
                     <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
-                    <AvatarFallback className="bg-primary text-primary-foreground">
+                    <AvatarFallback className="bg-primary text-white font-semibold">
                       {getUserInitials()}
                     </AvatarFallback>
                   </Avatar>
@@ -125,7 +119,7 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button variant="default" size="sm" onClick={() => setLoginModalOpen(true)}>
+            <Button variant="default" size="sm" onClick={() => setLoginModalOpen(true)} className="shadow-sm hover:shadow-md transition-all">
               Sign In
             </Button>
           )}
@@ -133,7 +127,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="md:hidden rounded-lg hover:bg-muted transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -158,13 +152,6 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Languages
-            </Link>
-            <Link 
-              to="/starred" 
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Starred
             </Link>
           </nav>
         </div>

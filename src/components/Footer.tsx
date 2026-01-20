@@ -3,51 +3,55 @@ import { Github, Twitter } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-card/50">
-      <div className="container py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <footer className="border-t border-border/50 bg-card/40 backdrop-blur-sm mt-20">
+      <div className="container py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
+            <Link to="/" className="flex items-center gap-2 mb-4 group">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white font-bold text-sm shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
                 PH
               </div>
-              <span className="text-lg font-semibold">PackHunt</span>
+              <span className="text-xl font-bold text-primary">PackHunt</span>
             </Link>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
               AI-powered package discovery for developers. Find the right library for your next project.
             </p>
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
+              <span className="text-xs text-success font-medium">All systems operational</span>
+            </div>
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4">Explore</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/search" className="hover:text-foreground transition-colors">Search Packages</Link></li>
-              <li><Link to="/languages" className="hover:text-foreground transition-colors">By Language</Link></li>
-              <li><Link to="/starred" className="hover:text-foreground transition-colors">Starred</Link></li>
+            <h4 className="font-bold mb-4 text-foreground">Explore</h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li><Link to="/search" className="hover:text-primary transition-colors duration-200 hover:translate-x-1 inline-block">Search Packages</Link></li>
+              <li><Link to="/languages" className="hover:text-primary transition-colors duration-200 hover:translate-x-1 inline-block">By Language</Link></li>
+              <li><Link to="/starred" className="hover:text-primary transition-colors duration-200 hover:translate-x-1 inline-block">Starred</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4">Languages</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/languages/python" className="hover:text-foreground transition-colors">Python</Link></li>
-              <li><Link to="/languages/nodejs" className="hover:text-foreground transition-colors">Node.js</Link></li>
-              <li><Link to="/languages/rust" className="hover:text-foreground transition-colors">Rust</Link></li>
+            <h4 className="font-bold mb-4 text-foreground">Languages</h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li><Link to="/languages/python" className="hover:text-blue-500 transition-colors duration-200 hover:translate-x-1 inline-block">Python</Link></li>
+              <li><Link to="/languages/nodejs" className="hover:text-green-500 transition-colors duration-200 hover:translate-x-1 inline-block">Node.js</Link></li>
+              <li><Link to="/languages/rust" className="hover:text-orange-500 transition-colors duration-200 hover:translate-x-1 inline-block">Rust</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4">Community</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="font-bold mb-4 text-foreground">Community</h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors flex items-center gap-2">
-                  <Github className="h-4 w-4" />
+                <a href="https://github.com/syedtaj7/Packhunt" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all duration-200 flex items-center gap-2 group hover:translate-x-1">
+                  <Github className="h-4 w-4 group-hover:scale-110 transition-transform" />
                   GitHub
                 </a>
               </li>
               <li>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors flex items-center gap-2">
-                  <Twitter className="h-4 w-4" />
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all duration-200 flex items-center gap-2 group hover:translate-x-1">
+                  <Twitter className="h-4 w-4 group-hover:scale-110 transition-transform" />
                   Twitter
                 </a>
               </li>
@@ -55,12 +59,14 @@ export function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-border/50 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2024 PackHunt. Built for developers.
+            © 2026 PackHunt. Built with ❤️ for developers.
           </p>
-          <div className="flex gap-4 text-sm text-muted-foreground">
-            <span className="text-success">🟢 All systems operational</span>
+          <div className="flex gap-6 text-sm text-muted-foreground">
+            <span className="hover:text-primary transition-colors cursor-pointer">Privacy</span>
+            <span className="hover:text-primary transition-colors cursor-pointer">Terms</span>
+            <span className="hover:text-primary transition-colors cursor-pointer">Contact</span>
           </div>
         </div>
       </div>
