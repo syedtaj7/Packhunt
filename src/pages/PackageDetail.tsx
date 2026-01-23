@@ -17,15 +17,77 @@ const languageColors: Record<string, string> = {
   python: 'bg-python/20 text-python border-python/30',
   nodejs: 'bg-nodejs/20 text-nodejs border-nodejs/30',
   rust: 'bg-rust/20 text-rust border-rust/30',
+  go: 'bg-go/20 text-go border-go/30',
+  java: 'bg-java/20 text-java border-java/30',
+  csharp: 'bg-csharp/20 text-csharp border-csharp/30',
+  ruby: 'bg-ruby/20 text-ruby border-ruby/30',
+  php: 'bg-php/20 text-php border-php/30',
+  swift: 'bg-swift/20 text-swift border-swift/30',
+  kotlin: 'bg-kotlin/20 text-kotlin border-kotlin/30',
+  dart: 'bg-dart/20 text-dart border-dart/30',
+  elixir: 'bg-elixir/20 text-elixir border-elixir/30',
+  haskell: 'bg-haskell/20 text-haskell border-haskell/30',
+  scala: 'bg-scala/20 text-scala border-scala/30',
+  cpp: 'bg-cpp/20 text-cpp border-cpp/30',
+  r: 'bg-r/20 text-r border-r/30',
+  julia: 'bg-julia/20 text-julia border-julia/30',
   PYTHON: 'bg-python/20 text-python border-python/30',
   NODEJS: 'bg-nodejs/20 text-nodejs border-nodejs/30',
   RUST: 'bg-rust/20 text-rust border-rust/30',
+  GO: 'bg-go/20 text-go border-go/30',
+  JAVA: 'bg-java/20 text-java border-java/30',
+  CSHARP: 'bg-csharp/20 text-csharp border-csharp/30',
+  RUBY: 'bg-ruby/20 text-ruby border-ruby/30',
+  PHP: 'bg-php/20 text-php border-php/30',
+  SWIFT: 'bg-swift/20 text-swift border-swift/30',
+  KOTLIN: 'bg-kotlin/20 text-kotlin border-kotlin/30',
+  DART: 'bg-dart/20 text-dart border-dart/30',
+  ELIXIR: 'bg-elixir/20 text-elixir border-elixir/30',
+  HASKELL: 'bg-haskell/20 text-haskell border-haskell/30',
+  SCALA: 'bg-scala/20 text-scala border-scala/30',
+  CPP: 'bg-cpp/20 text-cpp border-cpp/30',
+  R: 'bg-r/20 text-r border-r/30',
+  JULIA: 'bg-julia/20 text-julia border-julia/30',
 };
 
 const languageNames: Record<string, string> = {
   PYTHON: 'Python',
   NODEJS: 'Node.js',
   RUST: 'Rust',
+  GO: 'Go',
+  JAVA: 'Java',
+  CSHARP: 'C#',
+  RUBY: 'Ruby',
+  PHP: 'PHP',
+  SWIFT: 'Swift',
+  KOTLIN: 'Kotlin',
+  DART: 'Dart',
+  ELIXIR: 'Elixir',
+  HASKELL: 'Haskell',
+  SCALA: 'Scala',
+  CPP: 'C++',
+  R: 'R',
+  JULIA: 'Julia',
+};
+
+const languageLogos: Record<string, string> = {
+  PYTHON: '/logos/python.svg',
+  NODEJS: '/logos/nodejs.svg',
+  RUST: '/logos/rust.svg',
+  GO: '/logos/go.svg',
+  JAVA: '/logos/java.svg',
+  CSHARP: '/logos/csharp.svg',
+  RUBY: '/logos/ruby.svg',
+  PHP: '/logos/php.svg',
+  SWIFT: '/logos/swift.svg',
+  KOTLIN: '/logos/kotlin.svg',
+  DART: '/logos/dart.svg',
+  ELIXIR: '/logos/elixir.svg',
+  HASKELL: '/logos/haskell.svg',
+  SCALA: '/logos/scala.svg',
+  CPP: '/logos/c++.svg',
+  R: '/logos/R-lang.svg',
+  JULIA: '/logos/julia2.svg',
 };
 
 export default function PackageDetail() {
@@ -113,7 +175,14 @@ export default function PackageDetail() {
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <h1 className="text-3xl font-bold">{pkg.name}</h1>
-                  <Badge variant="outline" className={cn("border", languageColors[pkg.language])}>
+                  <Badge variant="outline" className={cn("inline-flex items-center gap-2 border", languageColors[pkg.language])}>
+                    {languageLogos[pkg.language] && (
+                      <img 
+                        src={languageLogos[pkg.language]} 
+                        alt={languageDisplay} 
+                        className="w-4 h-4 object-contain"
+                      />
+                    )}
                     {languageDisplay}
                   </Badge>
                 </div>

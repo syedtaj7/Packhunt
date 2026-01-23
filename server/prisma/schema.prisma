@@ -122,7 +122,18 @@ enum Language {
   PYTHON
   NODEJS
   RUST
-  CPP
-  JAVA
   GO
+  JAVA
+  CSHARP
+  RUBY
+  PHP
+  SWIFT
+  KOTLIN
+  DART
+  ELIXIR
+  HASKELL
+  SCALA
+  CPP
+  R
+  JULIA
 }

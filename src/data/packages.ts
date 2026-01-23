@@ -2,7 +2,7 @@ export interface Package {
   id: string;
   name: string;
   description: string;
-  language: 'python' | 'nodejs' | 'rust';
+  language: 'python' | 'nodejs' | 'rust' | 'go' | 'java' | 'csharp' | 'ruby' | 'php' | 'swift' | 'kotlin' | 'dart' | 'elixir' | 'haskell' | 'scala' | 'cpp' | 'r' | 'julia';
   installCommand: string;
   stars: number;
   forks: number;
