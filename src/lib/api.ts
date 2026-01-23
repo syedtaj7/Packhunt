@@ -11,22 +11,20 @@ export interface Package {
   name: string;
   slug: string;
   description: string;
-  language: 'PYTHON' | 'NODEJS' | 'RUST';
+  language: 'PYTHON' | 'NODEJS' | 'RUST' | 'GO' | 'JAVA' | 'CSHARP' | 'RUBY' | 'PHP' | 'SWIFT' | 'KOTLIN' | 'DART' | 'ELIXIR' | 'HASKELL' | 'SCALA' | 'CPP' | 'R' | 'JULIA';
+  ecosystem: string; // "pypi", "npm", "crates.io", etc.
   installCommand: string;
   githubUrl: string;
-  npmUrl?: string;
-  pypiUrl?: string;
-  cratesUrl?: string;
+  registryUrl: string;
   docsUrl?: string;
   homepageUrl?: string;
   stars: number;
   forks: number;
-  openIssues: number;
   downloads?: number;
   license?: string;
-  version?: string;
   readme?: string;
-  lastCommitAt?: string;
+  lastUpdated: string;
+  popularityScore: number;
   createdAt: string;
   updatedAt: string;
   categories?: Category[];
@@ -86,6 +84,7 @@ export interface SearchParams {
   sortBy?: 'relevance' | 'stars' | 'downloads' | 'recent' | 'name';
   page?: number;
   limit?: number;
+  [key: string]: unknown;
 }
 
 export interface PackageListParams {
@@ -94,6 +93,7 @@ export interface PackageListParams {
   order?: 'asc' | 'desc';
   page?: number;
   limit?: number;
+  [key: string]: unknown;
 }
 
 export interface PackageStats {
@@ -108,7 +108,7 @@ export interface PackageStats {
 }
 
 // Helper function to build query strings
-function buildQueryString(params: Record<string, any>): string {
+function buildQueryString(params: Record<string, unknown>): string {
   const searchParams = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== '') {
@@ -306,10 +306,7 @@ export function formatDownloads(downloads?: number): string {
  * Get package registry URL based on language
  */
 export function getRegistryUrl(pkg: Package): string {
-  if (pkg.npmUrl) return pkg.npmUrl;
-  if (pkg.pypiUrl) return pkg.pypiUrl;
-  if (pkg.cratesUrl) return pkg.cratesUrl;
-  return pkg.githubUrl;
+  return pkg.registryUrl || pkg.githubUrl;
 }
 
 /**

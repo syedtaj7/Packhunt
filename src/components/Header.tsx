@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Moon, Sun, Search, Star, Menu, X, LogOut, User } from 'lucide-react';
+import { Moon, Sun, Search, Star, Menu, X, LogOut, User, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/contexts/AuthContext';
 import { LoginModal } from '@/components/LoginModal';
+import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,6 +62,16 @@ export function Header() {
               className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all duration-200"
             >
               Languages
+            </Link>
+            <Link 
+              to="/alternatives" 
+              className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all duration-200 flex items-center gap-2"
+            >
+              Alternatives
+              <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-semibold bg-primary/10 text-primary border-primary/20">
+                <Sparkles className="h-2.5 w-2.5 mr-0.5" />
+                PREMIUM
+              </Badge>
             </Link>
           </nav>
         </div>
@@ -152,6 +163,17 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Languages
+            </Link>
+            <Link 
+              to="/alternatives" 
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 flex items-center gap-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Alternatives
+              <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-semibold bg-primary/10 text-primary border-primary/20">
+                <Sparkles className="h-2.5 w-2.5 mr-0.5" />
+                PREMIUM
+              </Badge>
             </Link>
           </nav>
         </div>
