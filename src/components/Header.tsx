@@ -44,10 +44,11 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white font-bold text-sm shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
-              PH
-            </div>
-            <span className="text-xl font-bold tracking-tight text-primary">PackHunt</span>
+            <img 
+              src="/logos/PackHunt.svg" 
+              alt="PackHunt Logo" 
+              className="h-9 w-auto group-hover:scale-105 transition-all duration-300"
+            />
           </Link>
           
           <nav className="hidden md:flex items-center gap-1">

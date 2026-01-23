@@ -8,10 +8,11 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white font-bold text-sm shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
-                PH
-              </div>
-              <span className="text-xl font-bold text-primary">PackHunt</span>
+              <img 
+                src="/logos/PackHunt.svg" 
+                alt="PackHunt Logo" 
+                className="h-10 w-auto group-hover:scale-105 transition-all duration-300"
+              />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
               AI-powered package discovery for developers. Find the right library for your next project.
