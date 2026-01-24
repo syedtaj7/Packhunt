@@ -1,0 +1,53 @@
+/**
+ * Application constants
+ */
+
+export const LANGUAGES = [
+  { id: 'python', name: 'Python', color: 'python', icon: '🐍' },
+  { id: 'nodejs', name: 'Node.js', color: 'nodejs', icon: '💚' },
+  { id: 'rust', name: 'Rust', color: 'rust', icon: '🦀' },
+  { id: 'go', name: 'Go', color: 'go', icon: '🔵' },
+  { id: 'java', name: 'Java', color: 'java', icon: '☕' },
+  { id: 'csharp', name: 'C#', color: 'csharp', icon: '💜' },
+  { id: 'ruby', name: 'Ruby', color: 'ruby', icon: '💎' },
+  { id: 'php', name: 'PHP', color: 'php', icon: '🐘' },
+  { id: 'swift', name: 'Swift', color: 'swift', icon: '🍎' },
+  { id: 'kotlin', name: 'Kotlin', color: 'kotlin', icon: '🎯' },
+] as const;
+
+export const LANGUAGE_COLORS: Record<string, string> = {
+  python: 'bg-python/20 text-python border-python/30',
+  nodejs: 'bg-nodejs/20 text-nodejs border-nodejs/30',
+  rust: 'bg-rust/20 text-rust border-rust/30',
+  go: 'bg-go/20 text-go border-go/30',
+  java: 'bg-java/20 text-java border-java/30',
+  csharp: 'bg-csharp/20 text-csharp border-csharp/30',
+  ruby: 'bg-ruby/20 text-ruby border-ruby/30',
+  php: 'bg-php/20 text-php border-php/30',
+  swift: 'bg-swift/20 text-swift border-swift/30',
+  kotlin: 'bg-kotlin/20 text-kotlin border-kotlin/30',
+  dart: 'bg-dart/20 text-dart border-dart/30',
+  elixir: 'bg-elixir/20 text-elixir border-elixir/30',
+  haskell: 'bg-haskell/20 text-haskell border-haskell/30',
+  scala: 'bg-scala/20 text-scala border-scala/30',
+  cpp: 'bg-cpp/20 text-cpp border-cpp/30',
+  r: 'bg-r/20 text-r border-r/30',
+  julia: 'bg-julia/20 text-julia border-julia/30',
+  PYTHON: 'bg-python/20 text-python border-python/30',
+  NODEJS: 'bg-nodejs/20 text-nodejs border-nodejs/30',
+  RUST: 'bg-rust/20 text-rust border-rust/30',
+  GO: 'bg-go/20 text-go border-go/30',
+  JAVA: 'bg-java/20 text-java border-java/30',
+  CSHARP: 'bg-csharp/20 text-csharp border-csharp/30',
+  RUBY: 'bg-ruby/20 text-ruby border-ruby/30',
+  PHP: 'bg-php/20 text-php border-php/30',
+  SWIFT: 'bg-swift/20 text-swift border-swift/30',
+  KOTLIN: 'bg-kotlin/20 text-kotlin border-kotlin/30',
+  DART: 'bg-dart/20 text-dart border-dart/30',
+  ELIXIR: 'bg-elixir/20 text-elixir border-elixir/30',
+  HASKELL: 'bg-haskell/20 text-haskell border-haskell/30',
+  SCALA: 'bg-scala/20 text-scala border-scala/30',
+  CPP: 'bg-cpp/20 text-cpp border-cpp/30',
+  R: 'bg-r/20 text-r border-r/30',
+  JULIA: 'bg-julia/20 text-julia border-julia/30',
+};
