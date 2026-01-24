@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { generateEmbedding, cosineSimilarity } from './embeddings';
-
-const prisma = new PrismaClient();
+import { prisma } from '../lib/prisma';
 
 export interface SemanticSearchResult {
   id: string;

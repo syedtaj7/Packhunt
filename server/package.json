@@ -30,8 +30,7 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
-    "meilisearch": "^0.55.0",
-    "openai": "^6.16.0"
+    "meilisearch": "^0.55.0"
   },
   "devDependencies": {
     "@types/compression": "^1.7.5",

@@ -1,7 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
@@ -11,32 +10,26 @@ import StarredPage from "./pages/StarredPage";
 import LanguagesPage from "./pages/LanguagesPage";
 import AlternativesPage from "./pages/AlternativesPage";
 import NotFound from "./pages/NotFound";
-import TestPage from "./pages/TestPage";
-
-const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/test" element={<TestPage />} />
-            <Route path="/package/:id" element={<PackageDetail />} />
-            <Route path="/languages" element={<LanguagesPage />} />
-            <Route path="/languages/:lang" element={<SearchPage />} />
-            <Route path="/alternatives" element={<AlternativesPage />} />
-            <Route path="/starred" element={<StarredPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
+  <AuthProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/package/:id" element={<PackageDetail />} />
+          <Route path="/languages" element={<LanguagesPage />} />
+          <Route path="/languages/:lang" element={<SearchPage />} />
+          <Route path="/alternatives" element={<AlternativesPage />} />
+          <Route path="/starred" element={<StarredPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </AuthProvider>
 );
 
 export default App;

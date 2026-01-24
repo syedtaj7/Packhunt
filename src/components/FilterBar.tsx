@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { X } from 'lucide-react';
-import { languages } from '@/data/packages';
+import { LANGUAGES } from '@/lib/constants';
 
 interface FilterBarProps {
   selectedLanguage: string;
