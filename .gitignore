@@ -36,7 +36,9 @@ backend/data/*.json
 # Meilisearch
 meilisearch/meilisearch.exe
 meilisearch/data/
+backend/meilisearch/meilisearch.exe
 backend/meilisearch/data/
+*.exe
 
 # Prisma
 backend/prisma/migrations/*/migration.sql
