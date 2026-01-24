@@ -97,15 +97,15 @@ git push -u origin main
 
 1. In Render Dashboard → Click **"New +"** → **"Web Service"**
 2. Connect your GitHub repository: `package-compass`
-3. Configure:
-   - **Name**: `package-compass-api` (or your choice)
-   - **Region**: Choose closest to you
+3. Configure (EXACT VALUES):
+   - **Name**: `Packhunt-api` (or your choice)
+   - **Language**: `Node`
+   - **Region**: `Oregon (US West)` (or closest to you)
    - **Branch**: `main`
    - **Root Directory**: `server`
-   - **Runtime**: `Node`
-   - **Build Command**: `npm install && npm run prisma:generate`
+   - **Build Command**: `npm install && npm run prisma:generate && npm run build`
    - **Start Command**: `npm start`
-   - **Plan**: Free
+   - **Instance Type**: `Free`
 
 4. Click **"Advanced"** → Add Environment Variables:
    ```
@@ -205,29 +205,26 @@ VITE_FIREBASE_APP_ID = (your Firebase appId)
 
 ---
 
-## 🔍 Optional: Deploy Meilisearch (if needed)
+## � Skip Meilisearch - You Don't Need It!
 
-If you want faster keyword search with typo tolerance:
+**Good news:** Your app already has **FREE AI-powered search** built-in! 
 
-1. Go to Render → **"New +"** → **"Web Service"**
-2. **Deploy from Docker**:
-   - **Image URL**: `getmeili/meilisearch:v1.10`
-   - **Environment Variables**:
-     ```
-     MEILI_MASTER_KEY = (generate a random key)
-     MEILI_ENV = production
-     ```
-3. After deployment, update backend env:
-   ```
-   MEILISEARCH_HOST = https://your-meilisearch.onrender.com
-   MEILISEARCH_MASTER_KEY = (your master key)
-   ```
-4. Sync data: Go to backend Shell → Run:
-   ```bash
-   npm run meilisearch:sync
-   ```
+### What You Get Without Meilisearch:
+- ✅ **Semantic Search** - AI understands meaning (searches by intent, not just keywords)
+- ✅ **Hybrid Search** - Combines AI + keyword matching for best results
+- ✅ **100% Free** - Uses local AI models (no API costs, no extra service)
+- ✅ **No cold starts** - Runs on your existing backend
+- ✅ **Works offline** - No external dependencies
 
-**Note**: Meilisearch free tier also sleeps. Consider using semantic search only.
+### Your Built-in Search Features:
+1. **Semantic**: `POST /api/search/semantic?q=web+framework` 
+   - Finds packages by meaning (e.g., "database tool" finds PostgreSQL, MongoDB)
+2. **Hybrid**: `POST /api/search/hybrid?q=fast+web+server`
+   - Best of both worlds (60% AI + 40% keyword)
+3. **Basic**: `GET /api/search?q=react`
+   - Traditional keyword search
+
+**You saved deploying an extra service!** Just use the 4 backend env variables and you're good to go.
 
 ---
 
@@ -327,11 +324,13 @@ Your app is now live and accessible worldwide for **FREE**!
 
 ## 💡 Cost Optimization Tips
 
-1. **No Meilisearch**: Use semantic search only (saves 1 Render service)
-2. **Optimize Images**: Compress logo files
-3. **Code Splitting**: Already done with Vite
-4. **CDN**: Vercel CDN is automatic
-5. **Database**: Supabase free tier is generous (500MB)
+1. ✅ **No Meilisearch needed**: Built-in AI search is better and free!
+2. ✅ **Optimize Images**: Compress logo files (already done)
+3. ✅ **Code Splitting**: Already done with Vite
+4. ✅ **CDN**: Vercel CDN is automatic
+5. ✅ **Database**: Supabase free tier is generous (500MB)
+
+**Your app is already optimized for free deployment!**
 
 ---
 
