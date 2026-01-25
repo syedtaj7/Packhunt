@@ -17,6 +17,9 @@ config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Import test function
+import { testDatabaseConnection } from './lib/prisma';
+
 // Middleware
 app.use(helmet()); // Security headers
 app.use(compression()); // Compress responses
@@ -54,12 +57,24 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // Health check endpoint
-app.get('/health', (req: Request, res: Response) => {
-  res.json({ 
-    status: 'ok', 
-    timestamp: new Date().toISOString(),
-    database: 'connected'
-  });
+app.get('/health', async (req: Request, res: Response) => {
+  try {
+    // Check database connection
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ 
+      status: 'ok', 
+      timestamp: new Date().toISOString(),
+      database: 'connected'
+    });
+  } catch (error) {
+    console.error('Health check failed:', error);
+    res.status(503).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      database: 'disconnected',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
 });
 
 // API Routes
@@ -95,9 +110,17 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`
+// Start server with database connection check
+async function startServer() {
+  // Test database connection
+  const dbConnected = await testDatabaseConnection();
+  if (!dbConnected) {
+    console.error('Failed to connect to database. Please check your DATABASE_URL.');
+    process.exit(1);
+  }
+
+  app.listen(PORT, () => {
+    console.log(`
 🚀 PackHunt API Server is running!
 
 📍 Local:    http://localhost:${PORT}
@@ -109,6 +132,14 @@ app.listen(PORT, () => {
 Environment: ${process.env.NODE_ENV || 'development'}
 Frontend: ${process.env.FRONTEND_URL || 'http://localhost:8080'}
   `);
+});
+
+}
+
+// Start the server
+startServer().catch((error) => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
 });
 
 // Graceful shutdown

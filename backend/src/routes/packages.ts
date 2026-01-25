@@ -33,7 +33,12 @@ router.get('/trending', async (req, res) => {
     res.json({ data: packages });
   } catch (error) {
     console.error('Error fetching trending packages:', error);
-    res.status(500).json({ error: 'Failed to fetch trending packages' });
+    // Send more detailed error in development
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ 
+      error: 'Failed to fetch trending packages',
+      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+    });
   }
 });
 
@@ -68,7 +73,11 @@ router.get('/stats', async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching stats:', error);
-    res.status(500).json({ error: 'Failed to fetch statistics' });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ 
+      error: 'Failed to fetch statistics',
+      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+    });
   }
 });
 
