@@ -21,7 +21,21 @@ const PORT = process.env.PORT || 3001;
 app.use(helmet()); // Security headers
 app.use(compression()); // Compress responses
 app.use(cors({
-  origin: process.env.FRONTEND_URL ? [process.env.FRONTEND_URL, 'http://localhost:8080'] : '*',
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'http://localhost:8080',
+      'http://localhost:5173',
+      'https://packhunt.vercel.app',
+      process.env.FRONTEND_URL,
+    ].filter(Boolean);
+    
+    // Allow Vercel preview URLs
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
